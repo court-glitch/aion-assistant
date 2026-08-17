@@ -1,6 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Menu, Settings, Sparkles, ShieldAlert, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  Menu,
+  Settings,
+  Sparkles,
+  ShieldAlert,
+  X,
+} from "lucide-react";
 
 import { Logo } from "./Logo";
 import { navItems, quickTips, readUsage, USAGE_LIMIT } from "@/lib/aion";
@@ -67,16 +76,22 @@ function TipCarousel() {
   );
 }
 
-function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarBody({
+  onNavigate,
+  collapsed = false,
+}: {
+  onNavigate?: () => void;
+  collapsed?: boolean;
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="flex h-full flex-col gap-6 p-6">
-      <Link to="/" onClick={onNavigate}>
-        <Logo />
+    <div className={cn("flex h-full flex-col gap-6", collapsed ? "items-center p-3" : "p-6")}>
+      <Link to="/" onClick={onNavigate} title="Back to dashboard">
+        <Logo compact={collapsed} />
       </Link>
 
-      <nav className="flex flex-1 flex-col gap-1">
+      <nav className="flex w-full flex-1 flex-col gap-1">
         {navItems.map((item) => {
           const active = pathname === item.url;
           return (
@@ -84,15 +99,17 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
               key={item.url}
               to={item.url}
               onClick={onNavigate}
+              title={item.title}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
+                "flex items-center gap-3 rounded-xl py-2.5 text-sm transition-colors",
+                collapsed ? "justify-center px-0" : "px-3",
                 active
                   ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-[inset_0_0_0_1px_var(--sidebar-border)]"
                   : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground",
               )}
             >
-              <item.icon className={cn("h-4 w-4", active && "text-violet")} />
-              <span className="truncate">{item.title}</span>
+              <item.icon className={cn("h-4 w-4 shrink-0", active && "text-violet")} />
+              {!collapsed && <span className="truncate">{item.title}</span>}
             </Link>
           );
         })}
@@ -100,16 +117,24 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="h-px w-full bg-sidebar-border" />
 
-      <div className="space-y-4">
+      <div className="w-full space-y-4">
         <Link
           to="/settings"
           onClick={onNavigate}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground"
+          title="Settings"
+          className={cn(
+            "flex items-center gap-3 rounded-xl py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground",
+            collapsed ? "justify-center px-0" : "px-3",
+          )}
         >
-          <Settings className="h-4 w-4" /> Settings
+          <Settings className="h-4 w-4 shrink-0" /> {!collapsed && "Settings"}
         </Link>
-        <UsageMeter />
-        <TipCarousel />
+        {!collapsed && (
+          <>
+            <UsageMeter />
+            <TipCarousel />
+          </>
+        )}
       </div>
     </div>
   );
@@ -130,13 +155,44 @@ export function Disclaimer() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    const stored = localStorage.getItem("aion:sidebar-collapsed");
+    if (stored === "1") setCollapsed(true);
+  }, []);
+
+  const toggleCollapsed = () => {
+    setCollapsed((v) => {
+      localStorage.setItem("aion:sidebar-collapsed", v ? "0" : "1");
+      return !v;
+    });
+  };
 
   return (
     <div className="min-h-screen w-full">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[280px] border-r border-sidebar-border bg-sidebar/80 backdrop-blur-xl lg:block">
-        <SidebarBody />
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-30 hidden border-r border-sidebar-border bg-sidebar/80 backdrop-blur-xl transition-[width] duration-300 lg:block",
+          collapsed ? "w-[84px]" : "w-[280px]",
+        )}
+      >
+        <SidebarBody collapsed={collapsed} />
+        <button
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={toggleCollapsed}
+          className="absolute -right-3.5 top-8 rounded-full border border-sidebar-border bg-card p-1.5 text-muted-foreground shadow-lg transition-colors hover:text-foreground"
+        >
+          {collapsed ? (
+            <ChevronRight className="h-3.5 w-3.5" />
+          ) : (
+            <ChevronLeft className="h-3.5 w-3.5" />
+          )}
+        </button>
       </aside>
+
 
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/80 px-4 py-3 backdrop-blur-xl lg:hidden">
         <Logo compact />
@@ -169,8 +225,27 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <div className="lg:pl-[280px]">
+      <div className={cn("transition-[padding] duration-300", collapsed ? "lg:pl-[84px]" : "lg:pl-[280px]")}>
         <main className="mx-auto w-full max-w-[1440px] px-4 pb-32 pt-6 sm:px-6 lg:px-8 lg:pb-12">
+          <div className="mb-4 hidden items-center gap-2 lg:flex">
+            <Link
+              to="/"
+              className={cn(
+                "inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm transition-colors hover:bg-sidebar-accent/50 hover:text-foreground",
+                pathname === "/" ? "text-violet" : "text-muted-foreground",
+              )}
+            >
+              <Home className="h-4 w-4" /> Home
+            </Link>
+            {pathname !== "/" && (
+              <button
+                onClick={() => window.history.back()}
+                className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground"
+              >
+                <ChevronLeft className="h-4 w-4" /> Back
+              </button>
+            )}
+          </div>
           {children}
           <footer className="mt-10 border-t border-border pt-6 text-xs text-muted-foreground">
             © 2026 AION – AI Workplace Productivity Assistant. Created by Shayla Courtney De Bruyn.

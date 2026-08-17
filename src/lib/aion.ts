@@ -4,8 +4,10 @@ import {
   NotebookPen,
   CalendarClock,
   Telescope,
+  Activity,
   type LucideIcon,
 } from "lucide-react";
+
 
 export type NavItem = {
   title: string;

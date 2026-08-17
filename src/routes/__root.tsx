@@ -79,20 +79,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AION — AI Workplace Productivity Assistant" },
+      { title: "AION Dashboard — AI Workplace Productivity Assistant" },
       {
         name: "description",
         content:
-          "AION automates workplace tasks with AI: emails, meeting summaries, task planning and research.",
+          "AION automates workplace tasks with AI: emails, meeting summaries, task plans and research — all editable.",
       },
       { name: "author", content: "Shayla Courtney De Bruyn" },
-      { property: "og:title", content: "AION — Your Intelligence, Accelerated." },
+      { property: "og:title", content: "AION Dashboard — AI Workplace Productivity Assistant" },
       {
         property: "og:description",
-        content: "AI workplace productivity assistant with editable, structured outputs.",
+        content: "AION automates workplace tasks with AI: emails, meeting summaries, task plans and research — all editable.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AION Dashboard — AI Workplace Productivity Assistant" },
+      { name: "twitter:description", content: "AION automates workplace tasks with AI: emails, meeting summaries, task plans and research — all editable." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Exi8K57efUe0ldd4Z5dYXUhsqIy1/social-images/social-1786969010139-social-image.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Exi8K57efUe0ldd4Z5dYXUhsqIy1/social-images/social-1786969010139-social-image.webp" },
     ],
     links: [
       {

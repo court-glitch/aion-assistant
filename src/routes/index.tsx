@@ -16,10 +16,10 @@ export const Route = createFileRoute("/")({
         content:
           "AION automates workplace tasks with AI: emails, meeting summaries, task plans and research — all editable.",
       },
-      { property: "og:title", content: "AION — Your Intelligence, Accelerated." },
+      { property: "og:title", content: "AION Dashboard — AI Workplace Productivity Assistant" },
       {
         property: "og:description",
-        content: "AI workplace productivity assistant for emails, meetings, planning and research.",
+        content: "AION automates workplace tasks with AI: emails, meeting summaries, task plans and research — all editable.",
       },
     ],
   }),

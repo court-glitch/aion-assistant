@@ -158,6 +158,7 @@ export function Disclaimer() {
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   usePreferences();
 
@@ -165,6 +166,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem("aion:sidebar-collapsed");
     if (stored === "1") setCollapsed(true);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 140);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const toggleCollapsed = () => {

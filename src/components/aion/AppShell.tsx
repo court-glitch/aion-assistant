@@ -218,15 +218,14 @@ export function AppShell({ children }: { children: ReactNode }) {
           <img
             src={logo}
             alt="AION logo"
-            width={32}
-            height={32}
+            width={34}
+            height={34}
             className="h-8 w-8 rounded-lg glow"
           />
-          <p className="font-sans text-sm font-bold tracking-tight text-foreground">AION</p>
-          <span className="h-4 w-px bg-border" aria-hidden />
-          <p className="text-xs font-medium text-muted-foreground">
-            Your Intelligence, Accelerated.
-          </p>
+          <span className="flex flex-col leading-tight">
+            <span className="font-sans text-sm font-bold tracking-tight text-foreground">AION</span>
+            <span className="text-[10px] text-muted-foreground">Your Intelligence, Accelerated.</span>
+          </span>
         </Link>
       </header>
 

@@ -146,13 +146,44 @@ export function Disclaimer() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    const stored = localStorage.getItem("aion:sidebar-collapsed");
+    if (stored === "1") setCollapsed(true);
+  }, []);
+
+  const toggleCollapsed = () => {
+    setCollapsed((v) => {
+      localStorage.setItem("aion:sidebar-collapsed", v ? "0" : "1");
+      return !v;
+    });
+  };
 
   return (
     <div className="min-h-screen w-full">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[280px] border-r border-sidebar-border bg-sidebar/80 backdrop-blur-xl lg:block">
-        <SidebarBody />
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-30 hidden border-r border-sidebar-border bg-sidebar/80 backdrop-blur-xl transition-[width] duration-300 lg:block",
+          collapsed ? "w-[84px]" : "w-[280px]",
+        )}
+      >
+        <SidebarBody collapsed={collapsed} />
+        <button
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={toggleCollapsed}
+          className="absolute -right-3.5 top-8 rounded-full border border-sidebar-border bg-card p-1.5 text-muted-foreground shadow-lg transition-colors hover:text-foreground"
+        >
+          {collapsed ? (
+            <ChevronRight className="h-3.5 w-3.5" />
+          ) : (
+            <ChevronLeft className="h-3.5 w-3.5" />
+          )}
+        </button>
       </aside>
+
 
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/80 px-4 py-3 backdrop-blur-xl lg:hidden">
         <Logo compact />

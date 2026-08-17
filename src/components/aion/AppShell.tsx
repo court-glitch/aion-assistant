@@ -225,8 +225,27 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <div className="lg:pl-[280px]">
+      <div className={cn("transition-[padding] duration-300", collapsed ? "lg:pl-[84px]" : "lg:pl-[280px]")}>
         <main className="mx-auto w-full max-w-[1440px] px-4 pb-32 pt-6 sm:px-6 lg:px-8 lg:pb-12">
+          <div className="mb-4 hidden items-center gap-2 lg:flex">
+            <Link
+              to="/"
+              className={cn(
+                "inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm transition-colors hover:bg-sidebar-accent/50 hover:text-foreground",
+                pathname === "/" ? "text-violet" : "text-muted-foreground",
+              )}
+            >
+              <Home className="h-4 w-4" /> Home
+            </Link>
+            {pathname !== "/" && (
+              <button
+                onClick={() => window.history.back()}
+                className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground"
+              >
+                <ChevronLeft className="h-4 w-4" /> Back
+              </button>
+            )}
+          </div>
           {children}
           <footer className="mt-10 border-t border-border pt-6 text-xs text-muted-foreground">
             © 2026 AION – AI Workplace Productivity Assistant. Created by Shayla Courtney De Bruyn.

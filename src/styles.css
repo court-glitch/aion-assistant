@@ -94,6 +94,7 @@
     oklch(0.65 0.2 296 / 4%)
   );
   --shadow-glow: 0 18px 50px -20px oklch(0.53 0.23 279 / 55%);
+  --glass-bg: oklch(0.18 0.035 283 / 70%);
 }
 
 .dark {
@@ -118,6 +119,8 @@ html.light {
   --sidebar-foreground: oklch(0.2 0.03 285);
   --sidebar-accent: oklch(0.94 0.03 285);
   --sidebar-accent-foreground: oklch(0.2 0.03 285);
+  --glass-bg: oklch(1 0 0 / 78%);
+  --gradient-glass: linear-gradient(150deg, oklch(0.53 0.23 279 / 6%), oklch(0.65 0.2 296 / 3%));
 }
 
 html[data-accent="violet"] {
@@ -177,7 +180,7 @@ html[data-font-size="large"] {
 
 @utility glass-card {
   background-image: var(--gradient-glass);
-  background-color: oklch(0.18 0.035 283 / 70%);
+  background-color: var(--glass-bg);
   backdrop-filter: blur(14px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);

@@ -241,7 +241,26 @@ export function AppShell({ children }: { children: ReactNode }) {
               <ChevronLeft className="h-5 w-5" />
             </Link>
           )}
-          <Logo compact />
+          <Link to="/" className="flex items-center gap-2.5" title="Back to dashboard">
+            <img
+              src={logo}
+              alt="AION logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-lg glow"
+            />
+            <span
+              className={cn(
+                "flex flex-col leading-tight transition-all duration-300 sm:max-w-[180px]",
+                scrolled
+                  ? "max-w-[160px] translate-x-0 opacity-100"
+                  : "max-w-0 translate-x-1 overflow-hidden opacity-0",
+              )}
+            >
+              <span className="font-sans text-sm font-bold tracking-tight text-foreground">AION</span>
+              <span className="text-[10px] text-muted-foreground">Your Intelligence, Accelerated.</span>
+            </span>
+          </Link>
         </div>
         <button
           aria-label="Open navigation"

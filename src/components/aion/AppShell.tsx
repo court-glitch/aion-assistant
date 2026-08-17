@@ -1,6 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Menu, Settings, Sparkles, ShieldAlert, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  Menu,
+  Settings,
+  Sparkles,
+  ShieldAlert,
+  X,
+} from "lucide-react";
 
 import { Logo } from "./Logo";
 import { navItems, quickTips, readUsage, USAGE_LIMIT } from "@/lib/aion";

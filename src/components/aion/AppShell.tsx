@@ -12,7 +12,9 @@ import {
 
 import { Logo } from "./Logo";
 import { navItems, quickTips, readUsage, USAGE_LIMIT } from "@/lib/aion";
+import { usePreferences } from "@/hooks/usePreferences";
 import { cn } from "@/lib/utils";
+
 
 function UsageMeter() {
   const [used, setUsed] = useState(0);
@@ -156,6 +158,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  usePreferences();
+
 
   useEffect(() => {
     const stored = localStorage.getItem("aion:sidebar-collapsed");

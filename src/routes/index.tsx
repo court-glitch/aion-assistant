@@ -31,7 +31,8 @@ const stats = [
 ];
 
 function Dashboard() {
-  const tools = navItems.filter((n) => n.url !== "/");
+  const tools = navItems.filter((n) => n.url !== "/" && n.url !== "/activity");
+
 
   return (
     <>

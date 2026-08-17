@@ -13,6 +13,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { generateWithAion } from "@/lib/ai.functions";
 import { bumpUsage } from "@/lib/aion";
+import { logActivity } from "@/lib/activity";
+
 
 export const Route = createFileRoute("/planner")({
   head: () => ({

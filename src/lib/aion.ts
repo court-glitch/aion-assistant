@@ -4,8 +4,10 @@ import {
   NotebookPen,
   CalendarClock,
   Telescope,
+  Activity,
   type LucideIcon,
 } from "lucide-react";
+
 
 export type NavItem = {
   title: string;
@@ -51,7 +53,15 @@ export const navItems: NavItem[] = [
     icon: Telescope,
     description: "Summaries, insights, recommendations, citations.",
   },
+  {
+    title: "Recent Activity",
+    short: "Activity",
+    url: "/activity",
+    icon: Activity,
+    description: "See everything AION has generated recently.",
+  },
 ];
+
 
 export const quickTips = [
   "Click any generated text to edit — saved locally.",

@@ -40,7 +40,9 @@ function MeetingsPage() {
     generate(
       "You are AION, a meeting analyst. Return plain-text sections in this exact order: EXECUTIVE SUMMARY, KEY DECISIONS (bullets), ACTION ITEMS (a text table with columns Owner | Task | Due date | Priority), DEADLINES (bullets). Be concise and specific.",
       `Meeting context: ${context}\nDuration: ${duration} minutes\nRaw notes:\n${notes}`,
+      { tool: "meetings", label: "Meeting notes summarized", title: context || "Untitled meeting" },
     );
+
 
   return (
     <>

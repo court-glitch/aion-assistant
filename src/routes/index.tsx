@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Zap, Clock, Layers } from "lucide-react";
 
 import { Disclaimer } from "@/components/aion/AppShell";
+import { ActivityFeed } from "@/components/aion/ActivityFeed";
+
 import { PageHeader } from "@/components/aion/PageHeader";
 import { navItems } from "@/lib/aion";
 
@@ -31,7 +33,8 @@ const stats = [
 ];
 
 function Dashboard() {
-  const tools = navItems.filter((n) => n.url !== "/");
+  const tools = navItems.filter((n) => n.url !== "/" && n.url !== "/activity");
+
 
   return (
     <>
@@ -75,7 +78,18 @@ function Dashboard() {
         ))}
       </div>
 
+      <div className="mt-10 flex items-center justify-between">
+        <h2 className="font-sans text-lg font-semibold text-foreground">Recent activity</h2>
+        <Link to="/activity" className="text-xs font-medium text-violet">
+          View all
+        </Link>
+      </div>
+      <div className="mt-4">
+        <ActivityFeed limit={4} />
+      </div>
+
       <Disclaimer />
+
     </>
   );
 }

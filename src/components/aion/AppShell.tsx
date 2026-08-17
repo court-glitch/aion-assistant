@@ -12,7 +12,9 @@ import {
 
 import { Logo } from "./Logo";
 import { navItems, quickTips, readUsage, USAGE_LIMIT } from "@/lib/aion";
+import { usePreferences } from "@/hooks/usePreferences";
 import { cn } from "@/lib/utils";
+
 
 function UsageMeter() {
   const [used, setUsed] = useState(0);
@@ -156,6 +158,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  usePreferences();
+
 
   useEffect(() => {
     const stored = localStorage.getItem("aion:sidebar-collapsed");
@@ -256,7 +260,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </main>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-border bg-background/95 backdrop-blur-xl sm:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-6 border-t border-border bg-background/95 backdrop-blur-xl sm:hidden">
         {navItems.map((item) => {
           const active = pathname === item.url;
           return (

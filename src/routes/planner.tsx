@@ -13,6 +13,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { generateWithAion } from "@/lib/ai.functions";
 import { bumpUsage } from "@/lib/aion";
+import { logActivity } from "@/lib/activity";
+
 
 export const Route = createFileRoute("/planner")({
   head: () => ({
@@ -95,6 +97,12 @@ function PlannerPage() {
       });
       persist(parseTasks(result.text, slots));
       bumpUsage();
+      logActivity({
+        tool: "planner",
+        label: "Task plan created",
+        title: `${mode} plan${role ? ` — ${role}` : ""}`,
+      });
+
     } catch (e) {
       const message = e instanceof Error ? e.message : "AION could not build this plan.";
       setError(message);

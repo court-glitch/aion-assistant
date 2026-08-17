@@ -50,7 +50,9 @@ function EmailPage() {
     generate(
       "You are AION, an expert workplace communication assistant. Write clear, professional emails. Return only the email with a Subject line, greeting, body and sign-off.",
       `Recipient: ${recipient || "colleague"}\nSubject context: ${context}\nKey points: ${points}\nTone: ${tone}\nLength: ${length < 34 ? "short (under 90 words)" : length < 67 ? "medium (120-180 words)" : "detailed (250+ words)"}`,
+      { tool: "email", label: "Email generated", title: context || recipient || "Untitled email" },
     );
+
 
   return (
     <>

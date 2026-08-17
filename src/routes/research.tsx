@@ -47,7 +47,9 @@ function ResearchPage() {
     generate(
       "You are AION, a research analyst. Return plain-text sections in this order: SUMMARY, INSIGHTS (bullets), RECOMMENDATIONS (bullets), CITATIONS (named sources with links where known, and flag anything you are uncertain about). Never invent precise statistics.",
       `Topic or URL: ${topic}\nFocus area: ${focus}\nDepth: ${depth}`,
+      { tool: "research", label: "Research completed", title: topic || "Untitled topic" },
     );
+
 
   return (
     <>

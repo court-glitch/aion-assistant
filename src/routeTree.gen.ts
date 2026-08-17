@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ActivityRouteImport } from './routes/activity'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as MeetingsRouteImport } from './routes/meetings'
 import { Route as PlannerRouteImport } from './routes/planner'
@@ -19,6 +20,11 @@ import { Route as SettingsRouteImport } from './routes/settings'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivityRoute = ActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -49,6 +55,7 @@ const SettingsRoute = SettingsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/planner': typeof PlannerRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/planner': typeof PlannerRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/planner': typeof PlannerRoute
@@ -75,12 +84,26 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/email' | '/meetings' | '/planner' | '/research' | '/settings'
+    | '/'
+    | '/activity'
+    | '/email'
+    | '/meetings'
+    | '/planner'
+    | '/research'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email' | '/meetings' | '/planner' | '/research' | '/settings'
+  to:
+    | '/'
+    | '/activity'
+    | '/email'
+    | '/meetings'
+    | '/planner'
+    | '/research'
+    | '/settings'
   id:
     | '__root__'
     | '/'
+    | '/activity'
     | '/email'
     | '/meetings'
     | '/planner'
@@ -90,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivityRoute: typeof ActivityRoute
   EmailRoute: typeof EmailRoute
   MeetingsRoute: typeof MeetingsRoute
   PlannerRoute: typeof PlannerRoute
@@ -104,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activity': {
+      id: '/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof ActivityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -146,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivityRoute: ActivityRoute,
   EmailRoute: EmailRoute,
   MeetingsRoute: MeetingsRoute,
   PlannerRoute: PlannerRoute,

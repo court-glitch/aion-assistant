@@ -67,16 +67,22 @@ function TipCarousel() {
   );
 }
 
-function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarBody({
+  onNavigate,
+  collapsed = false,
+}: {
+  onNavigate?: () => void;
+  collapsed?: boolean;
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="flex h-full flex-col gap-6 p-6">
-      <Link to="/" onClick={onNavigate}>
-        <Logo />
+    <div className={cn("flex h-full flex-col gap-6", collapsed ? "items-center p-3" : "p-6")}>
+      <Link to="/" onClick={onNavigate} title="Back to dashboard">
+        <Logo compact={collapsed} />
       </Link>
 
-      <nav className="flex flex-1 flex-col gap-1">
+      <nav className="flex w-full flex-1 flex-col gap-1">
         {navItems.map((item) => {
           const active = pathname === item.url;
           return (
@@ -84,15 +90,17 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
               key={item.url}
               to={item.url}
               onClick={onNavigate}
+              title={item.title}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
+                "flex items-center gap-3 rounded-xl py-2.5 text-sm transition-colors",
+                collapsed ? "justify-center px-0" : "px-3",
                 active
                   ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-[inset_0_0_0_1px_var(--sidebar-border)]"
                   : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground",
               )}
             >
-              <item.icon className={cn("h-4 w-4", active && "text-violet")} />
-              <span className="truncate">{item.title}</span>
+              <item.icon className={cn("h-4 w-4 shrink-0", active && "text-violet")} />
+              {!collapsed && <span className="truncate">{item.title}</span>}
             </Link>
           );
         })}
@@ -100,16 +108,24 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="h-px w-full bg-sidebar-border" />
 
-      <div className="space-y-4">
+      <div className="w-full space-y-4">
         <Link
           to="/settings"
           onClick={onNavigate}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground"
+          title="Settings"
+          className={cn(
+            "flex items-center gap-3 rounded-xl py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground",
+            collapsed ? "justify-center px-0" : "px-3",
+          )}
         >
-          <Settings className="h-4 w-4" /> Settings
+          <Settings className="h-4 w-4 shrink-0" /> {!collapsed && "Settings"}
         </Link>
-        <UsageMeter />
-        <TipCarousel />
+        {!collapsed && (
+          <>
+            <UsageMeter />
+            <TipCarousel />
+          </>
+        )}
       </div>
     </div>
   );

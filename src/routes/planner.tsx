@@ -95,6 +95,12 @@ function PlannerPage() {
       });
       persist(parseTasks(result.text, slots));
       bumpUsage();
+      logActivity({
+        tool: "planner",
+        label: "Task plan created",
+        title: `${mode} plan${role ? ` — ${role}` : ""}`,
+      });
+
     } catch (e) {
       const message = e instanceof Error ? e.message : "AION could not build this plan.";
       setError(message);

@@ -14,6 +14,7 @@ import { Logo } from "./Logo";
 import { navItems, quickTips, readUsage, USAGE_LIMIT } from "@/lib/aion";
 import { usePreferences } from "@/hooks/usePreferences";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/aion-logo.png";
 
 
 function UsageMeter() {
